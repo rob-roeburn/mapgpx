@@ -1,16 +1,16 @@
 import React from 'react';
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
-import MapDirectionsRenderer from './MapDirectionsRenderer';
+import { GoogleMap, LoadScript, Polyline, Marker, InfoWindow } from '@react-google-maps/api';
+import { FaAnchor } from 'react-icons/fa';
 
 const containerStyle = {
   width: '1500px',
-  height: '800px',
+  height: '1000px',
   margin: 'auto'
 };
 
 const center = {
-  lng: -0.575,
-  lat: 54.250
+  lng: -1.000,
+  lat: 50.000
 };
 
 function MyComponent() {
@@ -18,7 +18,6 @@ function MyComponent() {
 
   const onLoad = React.useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
-    map.fitBounds(bounds);
     setMap(map)
   }, [])
 
@@ -26,34 +25,37 @@ function MyComponent() {
     setMap(null)
   }, [])
 
-  const places = [
-    {latitude:54.05119,longitude:-1.70597},
-    {latitude:54.04889,longitude:-1.70413},
-    {latitude:54.04446,longitude:-1.70771},
-    {latitude:54.04115,longitude:-1.70835},
-    {latitude:54.03521,longitude:-1.70634},
-    {latitude:54.03164,longitude:-1.70523},
-    {latitude:54.02517,longitude:-1.70509},
-    {latitude:54.02417,longitude:-1.70196},
-    {latitude:54.01982,longitude:-1.70131},
-    {latitude:54.00951,longitude:-1.6965},
-    {latitude:54.0142,longitude:-1.71006},
-    {latitude:54.00809,longitude:-1.72475},
-    {latitude:53.99362,longitude:-1.71632},
-    {latitude:54.00171,longitude:-1.75684},
-    {latitude:54.01606,longitude:-1.76242},
-    {latitude:54.02819,longitude:-1.75321},
-    {latitude:54.03196,longitude:-1.74892},
-    {latitude:54.03314,longitude:-1.74413},
-    {latitude:54.03681,longitude:-1.73823},
-    {latitude:54.04151,longitude:-1.72638},
-    {latitude:54.04423,longitude:-1.7086},
-    {latitude:54.04702,longitude:-1.70589},
-    {latitude:54.05169,longitude:-1.7043}
-    //...
-  ]
+  const path1 = [{lat:51.1000000,lng:-1.1000000},{lat:51.2000000,lng:-1.2000000}];
+  const path2 = [{lat:51.2000000,lng:-1.2000000},{lat:51.3000000,lng:-1.3000000}];
+  const path3 = [{lat:51.3000000,lng:-1.3000000},{lat:51.4000000,lng:-1.4000000}];
+  const path4 = [{lat:51.4000000,lng:-1.4000000},{lat:51.5000000,lng:-1.5000000}];
+  const path5 = [{lat:51.5000000,lng:-1.5000000},{lat:51.6000000,lng:-1.6000000}];
+  const path6 = [{lat:51.6000000,lng:-1.6000000},{lat:51.7000000,lng:-1.7000000}];
+
+  const marker1 = {lat:51.1000000,lng:-1.1000000}
+  const marker2 = {lat:51.2000000,lng:-1.2000000}
+  const marker3 = {lat:51.3000000,lng:-1.3000000}
+  const marker4 = {lat:51.4000000,lng:-1.4000000}
+  const marker5 = {lat:51.5000000,lng:-1.5000000}
+  const marker6 = {lat:51.6000000,lng:-1.6000000}
+
+  const options = {
+    strokeColor: '#FF5000',
+    strokeOpacity: 0.8,
+    strokeWeight: 5,
+    fillColor: '#FF5000',
+    fillOpacity: 0.5,
+    clickable: false,
+    draggable: false,
+    editable: false,
+    visible: true,
+    radius: 30000,
+    paths: [],
+    zIndex: 1
+  };
 
   return (
+    <div>
     <LoadScript googleMapsApiKey="">
       <GoogleMap
         mapContainerStyle={containerStyle}
@@ -61,10 +63,34 @@ function MyComponent() {
         zoom={12}
         onLoad={onLoad}
         onUnmount={onUnmount}
+        z-index='1'
       >
-      <MapDirectionsRenderer places={places} travelMode="DRIVING" />
+     <Polyline path={path1} options={options} />
+     <Marker position={marker1}>
+     { <InfoWindow>
+      <div>
+      <tr><span><b>Heart Rate </b></span><td>100bpm</td></tr>
+      <tr><span><b>Calories </b></span><td>900</td></tr>
+      <tr><span><b>Distance </b></span><td>22.00km</td></tr>
+      <tr><span><b>Elevation </b></span><td>300m</td></tr>
+      <tr><span><b>Elapsed Time</b>&nbsp;&nbsp;&nbsp;</span><td>1:30:00</td></tr>
+      <tr><span><b>Device </b></span><td> Garmin </td></tr>
+      </div>
+      </InfoWindow>}
+     </Marker>
+     <Polyline path={path2} options={options} />
+     <Marker position={marker2} />
+     <Polyline path={path3} options={options} />
+     <Marker position={marker3} />
+     <Polyline path={path4} options={options} />
+     <Marker position={marker4} />
+     <Polyline path={path5} options={options} />
+     <Marker position={marker5} />
+     <Polyline path={path6} options={options} />
+     <Marker position={marker6} />
      </GoogleMap>
     </LoadScript>
+    </div>
   )
 }
 
